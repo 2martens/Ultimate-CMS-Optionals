@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Ultimate CMS Optionals" default="build">
+	<property name="UltimateCMSOptional" location="../de.plugins-zum-selberbauen.ultimate/metadata/optional" />
+	<property name="WCFLegalNoticeBuildDir" location="../com.woltlab.wcf.legalNotice.build/build" />
+	<target name="clean" description="Deletes old tar files.">
+		<delete failonerror="false">
+			<fileset dir="${UltimateCMSROptional}" includes="*legalNotice.tar.gz" />
+		</delete>
+	</target>
+	
+	<target name="build" depends="clean" description="Moves the requirement archives.">
+		<copy todir="${UltimateCMSOptional}">
+			<fileset dir="${WCFLegalNoticeBuildDir}" includes="*legalNotice.tar.gz" />
+		</copy>
+	</target>
+</project>
