@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="WCF Legal Notice" default="build">
+	<property name="legalNoticeDir" location="../com.woltlab.wcf.legalNotice/" />
+	<target name="clean" description="Deletes old tar files.">
+		<delete failonerror="false" dir="metadata" />
+		<delete failonerror="false" dir="build" />
+	</target>
+	
+	<target name="prepare" depends="clean" description="Prepares the build.">
+		<mkdir dir="build" />
+		<mkdir dir="metadata" />
+		<mkdir dir="metadata/language" />
+		
+		<copy todir="metadata">
+			<fileset dir="${legalNoticeDir}" includes="*.xml" />
+		</copy>
+		<copy todir="metadata/language">
+			<fileset dir="${legalNoticeDir}/language" includes="*.xml" />
+		</copy>
+	</target>
+
+	<target name="pack" depends="prepare" description="Packs the tar files.">
+		<tar destfile="metadata/templates.tar" 
+			basedir="${legalNoticeDir}/templates"
+		/>
+		<tar destfile="metadata/files.tar" 
+			basedir="${legalNoticeDir}/files"
+		/>
+	</target>
+
+	<target name="build" depends="pack" description="Generates the package archive.">
+		<tar destfile="build/com.woltlab.wcf.legalNotice.tar" 
+			 basedir="metadata"
+		/>
+		<gzip src="build/com.woltlab.wcf.legalNotice.tar"
+			  destfile="build/com.woltlab.wcf.legalNotice.tar.gz"
+		/>
+	</target>
+</project>
